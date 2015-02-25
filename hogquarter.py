@@ -1,3 +1,4 @@
+import sys
 import os
 import glob
 import numpy
@@ -76,7 +77,10 @@ def quarter_all_images(save_dir):
 
   previous = ''
   image_category_count = 0
+  processed_count = 0
   for url in files:
+    print "Processed {0} of {1}...\r".format(processed_count, len(files)),
+    sys.stdout.flush()
     tokens = url.split('/')
     if tokens[2] == previous:
       image_category_count += 1
@@ -85,6 +89,7 @@ def quarter_all_images(save_dir):
 
     quarter_image(url, image_category_count, save_dir)
     previous = tokens[2]
+    processed_count += 1
 
 def quarter_image(url, count, save_dir):
   image = Image.open(url)
