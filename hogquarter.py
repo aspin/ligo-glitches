@@ -1,3 +1,4 @@
+import os
 import glob
 import numpy
 import matplotlib.pyplot as plt
@@ -69,6 +70,7 @@ def image_to_array(image):
 
 
 ### Quarter Functions ###
+# for example, quarter_all_images('output/')
 def quarter_all_images(save_dir):
   files = glob.glob('./Glitch Categories/*/*')
 
@@ -89,8 +91,16 @@ def quarter_image(url, count, save_dir):
   pixels = get_pixels(image)
   images = get_images(pixels)
   name = url.split('/')[2]
+
+  folder_names = ['domain1', 'domain16', 'domain32', 'domain4']
+  if not os.path.exists(save_dir):
+    os.makedirs(save_dir)
+  for folder in folder_names:
+    if not os.path.exists(save_dir + folder + '/'):
+      os.makedirs(save_dir + folder + '/')
+
   for i in range(len(images)):
-    save_image(images[i], '{0}-{1} Part {2}.png'.format(name, count, i), save_dir)
+    save_image(images[i], '{2}/{0}-{1}.png'.format(name, count, folder_names[i]), save_dir)
 
 def get_pixels(image):
   width, height = image.size
@@ -114,4 +124,4 @@ def save_image(pixels, name, directory):
   image.putdata(flatten(pixels))
   image.save(directory+name)
 
-run()
+# run()
